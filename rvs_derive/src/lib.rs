@@ -3,7 +3,6 @@ use proc_macro2::Span;
 use quote::*;
 use syn::*;
 
-#[derive(Debug)]
 enum ParsedType {
     StringType,
     ScalarType,
