@@ -1,5 +1,5 @@
 [package]
-name = "rvc_derive"
+name = "rvs_derive"
 version = "0.1.0"
 authors = ["Abdulla Abdurakhmanov <me@abdolence.dev>"]
 edition = "2018"
@@ -13,7 +13,11 @@ readme = "README.md"
 include = ["Cargo.toml", "src/**/*.rs", "README.md", "../LICENSE"]
 
 [lib]
-name = "rvc_derive"
+name = "rvs_derive"
 proc-macro = true
+path = "src/lib.rs"
 
 [dependencies]
+proc-macro2 = "1.0"
+quote = "1.0"
+syn = { version = "1.0", features = [ "full" ]}
