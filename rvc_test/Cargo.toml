@@ -1,0 +1,16 @@
+[package]
+name = "rvc_test"
+version = "0.1.0"
+authors = ["Abdulla Abdurakhmanov <me@abdolence.dev>"]
+edition = "2018"
+license = "Apache-2.0"
+description = "Tests for macros implementation for Value Classes in Rust"
+homepage = "https://github.com/abdolence/rust-value-class"
+repository = "https://github.com/abdolence/rust-value-class"
+documentation = "https://github.com/abdolence/rust-value-class"
+keywords = ["value", "class"]
+readme = "README.md"
+include = ["Cargo.toml", "src/**/*.rs", "README.md", "../LICENSE"]
+
+[dependencies]
+rvc_derive = { version = "0.1", path = "../rvc_derive" }

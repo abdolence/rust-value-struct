@@ -1,0 +1,6 @@
+[workspace]
+
+members = [
+    "rvc_derive",
+    "rvc_test"
+]
