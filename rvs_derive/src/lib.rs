@@ -81,7 +81,7 @@ fn create_dependent_impls(
     match parsed_field_type {
         ParsedType::ScalarType => {
             quote! {
-               impl From<#field_type> for #struct_name {
+               impl std::convert::From<#field_type> for #struct_name {
                     fn from(value: #field_type) -> Self {
                         #struct_name(value)
                     }
@@ -90,19 +90,19 @@ fn create_dependent_impls(
         }
         ParsedType::StringType => {
             quote! {
-                impl From<String> for #struct_name {
+                impl std::convert::From<std::string::String> for #struct_name {
                     fn from(value: String) -> Self {
                         #struct_name(value)
                     }
                 }
 
-                impl From<&String> for #struct_name {
+                impl std::convert::From<&std::string::String> for #struct_name {
                     fn from(value: &String) -> Self {
                         #struct_name(value.clone())
                     }
                 }
 
-                impl From<&str> for #struct_name {
+                impl std::convert::From<&str> for #struct_name {
                     fn from(value: &str) -> Self {
                         #struct_name(String::from(value))
                     }
@@ -111,13 +111,13 @@ fn create_dependent_impls(
         }
         _ => {
             quote! {
-               impl From<#field_type> for #struct_name {
+               impl std::convert::From<#field_type> for #struct_name {
                     fn from(value: #field_type) -> Self {
                         #struct_name(value)
                     }
                }
 
-                impl From<&#field_type> for #struct_name {
+                impl std::convert::From<&#field_type> for #struct_name {
                     fn from(value: &#field_type) -> Self {
                         #struct_name(value.clone())
                     }

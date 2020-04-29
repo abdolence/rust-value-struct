@@ -22,6 +22,9 @@ mod tests {
 
         let s13 = SimpleStrValueStruct::from(s12);
         assert_eq!(s13.value(), "Hey");
+
+        let s14 : SimpleStrValueStruct = "Hey".into();
+        assert_eq!(s14.value(), "Hey");
     }
 
     #[test]
