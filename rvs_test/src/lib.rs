@@ -14,10 +14,10 @@ mod tests {
 
     #[test]
     fn create_str_value_struct() {
-        let s1 = String::from("Hey").into();
+        let s1 : SimpleStrValueStruct = String::from("Hey").into();
         assert_eq!(s1.value(), "Hey");
 
-        let s12 = "Hey".into();
+        let s12: SimpleStrValueStruct = "Hey".into();
         assert_eq!(s12.value(), "Hey");
 
         let s13 = SimpleStrValueStruct::from(s12);
@@ -26,13 +26,22 @@ mod tests {
 
     #[test]
     fn create_std_str_value_struct() {
-        let s1 = String::from("Hey").into();
+        let s1 : SimpleStrValueStruct = String::from("Hey").into();
         assert_eq!(s1.value(), "Hey");
     }
 
     #[test]
     fn create_int_value_struct() {
-        let i1 = 1u8.into();
+        let i1 : SimpleIntValueStruct = 1u8.into();
         assert_eq!(i1.value(), 1u8);
+    }
+
+    #[test]
+    fn create_example_struct() {
+        #[derive(ValueStruct)]
+        struct UserId(String);
+
+        let uid : UserId = "my-uid".into();
+        assert_eq!(uid.value(), "my-uid");
     }
 }

@@ -1,13 +1,33 @@
+//! Value Structs ("classes") derive macros for Rust
+//!
+//! A very simple derive macros to support strong type system and avoid bare types (like String)
+//! for domain types using Rust structs with exactly one unnamed field as a immutable value type.
+//!
+//! This is similar approach to Haskell's `newtype` (https://wiki.haskell.org/Newtype) or Scala's `AnyVal`.
+//!
+//! e.g. to declare something like this:
+//!
+//! ```
+//! #[derive(ValueStruct)]
+//! struct UserId(String);
+//!
+//! let uid : UserId = "my-uid".into();
+//! ```
+//!
+//! `ValueStruct` generates for you:
+//!  - `std::convert::From<>` instances automatically to help you to create your structs.
+//!  - inline `value()` function to access your field directly without using .0.
+//!
+//! There are different behaviour for different field types:
+//! - For `std::string::String` it generates `From<String>`, `From<&String>`, `From<&str>`
+//! - For scalar types `value()` isn't a reference, for others it is.
+//!
+
 use proc_macro::TokenStream;
 use proc_macro2::Span;
 use quote::*;
 use syn::*;
 
-enum ParsedType {
-    StringType,
-    ScalarType,
-    UnknownType,
-}
 
 #[proc_macro_derive(ValueStruct)]
 pub fn value_struct_macro(input: TokenStream) -> TokenStream {
@@ -47,6 +67,12 @@ pub fn value_struct_macro(input: TokenStream) -> TokenStream {
             .to_compile_error()
             .into(),
     }
+}
+
+enum ParsedType {
+    StringType,
+    ScalarType,
+    UnknownType,
 }
 
 #[inline]
@@ -135,6 +161,7 @@ fn create_type_dependent_functions(
     match parsed_field_type {
         ParsedType::ScalarType => {
             quote! {
+                #[inline]
                 fn value(&self) -> #field_type {
                     self.0
                 }
@@ -142,6 +169,7 @@ fn create_type_dependent_functions(
         }
         _ => {
             quote! {
+                #[inline]
                 fn value(&self) -> &#field_type {
                     &self.0
                 }
