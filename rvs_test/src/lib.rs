@@ -38,6 +38,7 @@ mod tests {
 
     #[test]
     fn create_example_struct() {
+
         #[derive(ValueStruct)]
         struct UserId(String);
 
