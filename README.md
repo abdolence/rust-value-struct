@@ -27,3 +27,17 @@ There are different behaviour for different field types:
 - For `std::string::String` it generates `From<String>`, `From<&String>`, `From<&str>`
 - For scalar types `value()` isn't a reference, for others it is.
  
+## Usage
+
+Add this to your `Cargo.toml`:
+
+```toml
+[dependencies]
+rvs_derive = "0.1"
+``` 
+
+## Licence
+Apache Software License (ASL)
+
+## Author
+Abdulla Abdurakhmanov
