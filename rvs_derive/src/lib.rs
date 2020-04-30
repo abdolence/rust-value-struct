@@ -8,6 +8,8 @@
 //! e.g. to declare something like this:
 //!
 //! ```
+//! use rvs_derive::ValueStruct;
+//! 
 //! #[derive(ValueStruct)]
 //! struct UserId(String);
 //!
@@ -42,9 +44,9 @@ pub fn value_struct_macro(input: TokenStream) -> TokenStream {
                 let parsed_field_type = parse_field_type(field_type);
 
                 let type_dependent_functions =
-                    create_type_dependent_functions(&field_type, &parsed_field_type);
+                    create_type_dependent_functions(&field_type, parsed_field_type.as_ref());
                 let type_dependent_impls =
-                    create_dependent_impls(&struct_name, &field_type, &parsed_field_type);
+                    create_dependent_impls(&struct_name, &field_type, parsed_field_type.as_ref());
 
                 let output = quote! {
                     #[allow(dead_code)]
@@ -72,12 +74,11 @@ pub fn value_struct_macro(input: TokenStream) -> TokenStream {
 
 enum ParsedType {
     StringType,
-    ScalarType,
-    UnknownType,
+    ScalarType
 }
 
 #[inline]
-fn parse_field_type(field_type: &Type) -> ParsedType {
+fn parse_field_type(field_type: &Type) -> Option<ParsedType> {
     match field_type {
         Type::Path(ref path) => {
             let full_type_path: &String = &path
@@ -89,13 +90,13 @@ fn parse_field_type(field_type: &Type) -> ParsedType {
                 .join("::");
 
             match full_type_path.as_str() {
-                "String" | "std::string::String" => ParsedType::StringType,
+                "String" | "std::string::String" => Some(ParsedType::StringType),
                 "i8" | "i16" | "i32" | "i64" | "i128" | "isize" | "u8" | "u16" | "u32" | "u64"
-                | "u128" | "usize" => ParsedType::ScalarType,
-                _ => ParsedType::UnknownType,
+                | "u128" | "usize" => Some(ParsedType::ScalarType),
+                _ => None
             }
         }
-        _ => ParsedType::UnknownType,
+        _ => None
     }
 }
 
@@ -103,10 +104,10 @@ fn parse_field_type(field_type: &Type) -> ParsedType {
 fn create_dependent_impls(
     struct_name: &Ident,
     field_type: &Type,
-    parsed_field_type: &ParsedType,
+    parsed_field_type: Option<&ParsedType>,
 ) -> proc_macro2::TokenStream {
     match parsed_field_type {
-        ParsedType::ScalarType => {
+        Some(ParsedType::ScalarType) => {
             quote! {
                impl std::convert::From<#field_type> for #struct_name {
                     fn from(value: #field_type) -> Self {
@@ -115,7 +116,7 @@ fn create_dependent_impls(
                }
             }
         }
-        ParsedType::StringType => {
+        Some(ParsedType::StringType) => {
             quote! {
                 impl std::convert::From<std::string::String> for #struct_name {
                     fn from(value: String) -> Self {
@@ -157,10 +158,10 @@ fn create_dependent_impls(
 #[inline]
 fn create_type_dependent_functions(
     field_type: &Type,
-    parsed_field_type: &ParsedType,
+    parsed_field_type: Option<&ParsedType>,
 ) -> proc_macro2::TokenStream {
     match parsed_field_type {
-        ParsedType::ScalarType => {
+        Some(ParsedType::ScalarType) => {
             quote! {
                 #[inline]
                 fn value(&self) -> #field_type {
