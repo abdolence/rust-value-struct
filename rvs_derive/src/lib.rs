@@ -9,7 +9,7 @@
 //!
 //! ```
 //! use rvs_derive::ValueStruct;
-//! 
+//!
 //! #[derive(ValueStruct)]
 //! struct UserId(String);
 //!
