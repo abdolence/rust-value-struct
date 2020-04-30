@@ -1,5 +1,4 @@
-[![Cargo](https://img.shields.io/crates/v/rust-value-strucct.svg)](
-https://crates.io/crates/rust-value-struct)
+[![Cargo](https://img.shields.io/crates/v/rvs_derive.svg)](https://crates.io/crates/rvs_derive)
 
 # Value Structs ("classes") derive macros for Rust
 
