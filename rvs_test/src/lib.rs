@@ -12,6 +12,9 @@ mod tests {
     #[derive(Debug, ValueStruct, Clone)]
     struct SimpleIntValueStruct(u8);
 
+    #[derive(ValueStruct)]
+    struct UserId(String);
+
     #[test]
     fn create_str_value_struct() {
         let s1 : SimpleStrValueStruct = String::from("Hey").into();
@@ -38,10 +41,6 @@ mod tests {
 
     #[test]
     fn create_example_struct() {
-
-        #[derive(ValueStruct)]
-        struct UserId(String);
-
         let uid : UserId = "my-uid".into();
         assert_eq!(uid.value(), "my-uid");
     }
