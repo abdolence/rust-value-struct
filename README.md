@@ -33,6 +33,16 @@ Add this to your `Cargo.toml`:
 ```toml
 [dependencies]
 rvs_derive = "0.1"
+```
+
+```rust
+// Import it
+use rvs_derive::ValueStruct;
+
+// And use it on your structs
+#[derive(ValueStruct)]
+struct UserId(String);
+
 ``` 
 
 ## Licence
