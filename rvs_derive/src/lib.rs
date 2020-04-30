@@ -47,6 +47,7 @@ pub fn value_struct_macro(input: TokenStream) -> TokenStream {
                     create_dependent_impls(&struct_name, &field_type, &parsed_field_type);
 
                 let output = quote! {
+                    #[allow(dead_code)]
                     impl #struct_name {
                         #type_dependent_functions
                     }
