@@ -16,11 +16,11 @@
 //!
 //! `ValueStruct` generates for you:
 //!  - `std::convert::From<>` instances automatically to help you to create your structs.
-//!  - inline `value()` function to access your field directly without using .0.
+//!  - an inline `value()` function to access your field directly without using .0.
 //!
 //! There are different behaviour for different field types:
-//! - For `std::string::String` it generates `From<String>`, `From<&String>`, `From<&str>`
-//! - For scalar types `value()` isn't a reference, for others it is.
+//! - for `std::string::String` it generates additional instance for `From<&str>`
+//! - for scalar types `value()` the result type isn't a reference, for others it is.
 //!
 
 use proc_macro::TokenStream;
