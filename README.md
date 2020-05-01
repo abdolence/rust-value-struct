@@ -1,14 +1,13 @@
 [![Cargo](https://img.shields.io/crates/v/rvs_derive.svg)](https://crates.io/crates/rvs_derive)
 
-# Value Structs ("classes") derive macros for Rust
+# Value Structs derive macros for Rust to support the newtype pattern
 
 ## Motivation
-A very simple derive macros to support strong type system and avoid bare types (like String) 
-for domain types using Rust structs with exactly one unnamed field as a immutable value type.
+A very simple derive macros to support strong type system and [the newtype pattern](https://doc.rust-lang.org/1.0.0/style/features/types/newtype.html).
+Newtypes are a zero-cost abstraction: they introduce a new, distinct name for an existing type, with no runtime overhead when converting between the two types. 
+This is a similar approach to Haskell's [newtype keyword](https://wiki.haskell.org/Newtype). 
 
-This is similar approach to Haskell's `newtype` (https://wiki.haskell.org/Newtype) or Scala's `AnyVal`. 
-
-e.g. to declare something like this:
+For example:
 ```rust
 #[derive(ValueStruct)]
 struct UserId(String);

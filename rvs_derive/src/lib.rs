@@ -1,12 +1,9 @@
-//! Value Structs ("classes") derive macros for Rust
+//! Value Structs derive macros for Rust to support the newtype pattern
 //!
-//! A very simple derive macros to support strong type system and avoid bare types (like String)
-//! for domain types using Rust structs with exactly one unnamed field as a immutable value type.
+//! A very simple derive macros to support strong type system and
+//! the new type pattern (https://doc.rust-lang.org/1.0.0/style/features/types/newtype.html).
 //!
-//! This is similar approach to Haskell's `newtype` (https://wiki.haskell.org/Newtype) or Scala's `AnyVal`.
-//!
-//! e.g. to declare something like this:
-//!
+//! For example:
 //! ```
 //! use rvs_derive::ValueStruct;
 //!
