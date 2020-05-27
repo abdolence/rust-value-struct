@@ -161,7 +161,7 @@ fn create_type_dependent_functions(
         Some(ParsedType::ScalarType) => {
             quote! {
                 #[inline]
-                fn value(&self) -> #field_type {
+                pub fn value(&self) -> #field_type {
                     self.0
                 }
             }
@@ -169,7 +169,7 @@ fn create_type_dependent_functions(
         _ => {
             quote! {
                 #[inline]
-                fn value(&self) -> &#field_type {
+                pub fn value(&self) -> &#field_type {
                     &self.0
                 }
             }
