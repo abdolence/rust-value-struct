@@ -44,4 +44,28 @@ mod tests {
         let uid : UserId = "my-uid".into();
         assert_eq!(uid.value(), "my-uid");
     }
+
+    #[test]
+    fn test_from_str() -> Result<(),Box<dyn std::error::Error>> {
+        let uid : UserId = "my-uid".parse()?;
+        assert_eq!(uid.value(), "my-uid");
+        Ok(())
+    }
+
+    #[test]
+    fn test_func_as_param() {
+        fn test_func(id : &UserId) -> &UserId {
+            id
+        }
+
+        fn test_func_str(id : &str) -> &str {
+            id
+        }
+
+        let uid = "my-uid".into();
+        let uid_fres : &UserId = test_func(&uid);
+        let str_fres = test_func_str(uid.as_ref());
+        assert_eq!(uid_fres.value(), "my-uid");
+        assert_eq!(str_fres, "my-uid");
+    }
 }

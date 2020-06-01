@@ -132,6 +132,21 @@ fn create_dependent_impls(
                         #struct_name(String::from(value))
                     }
                 }
+
+                impl std::str::FromStr for #struct_name {
+                    type Err = std::string::ParseError;
+
+                    fn from_str(s: &str) -> Result<Self, Self::Err> {
+                        Ok(#struct_name(s.into()))
+                    }
+                }
+
+                impl std::convert::AsRef<str> for #struct_name {
+                    fn as_ref(&self) -> &str {
+                        self.value().as_str()
+                    }
+                }
+
             }
         }
         _ => {
