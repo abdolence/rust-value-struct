@@ -5,7 +5,7 @@
 //!
 //! For example:
 //! ```
-//! use rvs::ValueStruct;
+//! use rvstruct::ValueStruct;
 //!
 //! #[derive(ValueStruct)]
 //! struct UserId(String);

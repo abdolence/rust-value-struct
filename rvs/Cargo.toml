@@ -1,5 +1,5 @@
 [package]
-name = "rvs"
+name = "rvstruct"
 version = "0.2.0"
 authors = ["Abdulla Abdurakhmanov <me@abdolence.dev>"]
 edition = "2018"
@@ -14,7 +14,7 @@ readme = "../README.md"
 include = ["Cargo.toml", "src/**/*.rs", "../README.md", "../LICENSE"]
 
 [lib]
-name = "rvs"
+name = "rvstruct"
 
 [dependencies]
 rvs_derive = { version = "0.2", path = "../rvs_derive"}

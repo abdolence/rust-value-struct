@@ -1,7 +1,7 @@
 #[cfg(test)]
 mod tests {
 
-    use rvs::ValueStruct;
+    use rvstruct::ValueStruct;
 
     #[derive(Debug, ValueStruct, Clone)]
     struct SimpleStrValueStruct(String);

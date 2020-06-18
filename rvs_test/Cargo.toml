@@ -13,4 +13,4 @@ readme = "README.md"
 include = ["Cargo.toml", "src/**/*.rs", "README.md", "../LICENSE"]
 
 [dependencies]
-rvs = { version = "0.2", path = "../rvs"}
+rvstruct = { version = "0.2", path = "../rvs"}
