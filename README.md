@@ -30,12 +30,12 @@ Add this to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-rvs = "0.2"
+rvstruct = "0.2"
 ```
 
 ```rust
 // Import it
-use rvs::ValueStruct;
+use rvstruct::ValueStruct;
 
 // And use it on your structs
 #[derive(ValueStruct)]
