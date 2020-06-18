@@ -1,16 +1,16 @@
 [package]
-name = "rvs_test"
-version = "0.1.0"
+name = "rvs"
+version = "0.2.0"
 authors = ["Abdulla Abdurakhmanov <me@abdolence.dev>"]
 edition = "2018"
 license = "Apache-2.0"
-description = "Tests for macros implementation for Value Classes in Rust"
+description = "A helper macros implementation for Value Classes in Rust"
 homepage = "https://github.com/abdolence/rust-value-struct"
 repository = "https://github.com/abdolence/rust-value-struct"
 documentation = "https://github.com/abdolence/rust-value-struct"
 keywords = ["value", "class"]
 readme = "README.md"
-include = ["Cargo.toml", "src/**/*.rs", "README.md", "../LICENSE"]
+include = ["Cargo.toml", "src/**/*.rs", "../README.md", "../LICENSE"]
 
 [dependencies]
-rvs = { version = "0.2", path = "../rvs"}
+rvs_derive = { version = "0.2", path = "../rvs_derive"}

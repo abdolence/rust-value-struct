@@ -1,32 +1,7 @@
-//! Value Structs derive macros for Rust to support the newtype pattern
-//!
-//! A very simple derive macros to support strong type system and
-//! the new type pattern (https://doc.rust-lang.org/1.0.0/style/features/types/newtype.html).
-//!
-//! For example:
-//! ```
-//! use rvs_derive::ValueStruct;
-//!
-//! #[derive(ValueStruct)]
-//! struct UserId(String);
-//!
-//! let uid : UserId = "my-uid".into();
-//! ```
-//!
-//! `ValueStruct` generates for you:
-//!  - `std::convert::From<>` instances automatically to help you to create your structs.
-//!  - an inline `value()` function to access your field directly without using .0.
-//!
-//! There are different behaviour for different field types:
-//! - for `std::string::String` it generates additional instance for `From<&str>`
-//! - for scalar types `value()` the result type isn't a reference, for others it is.
-//!
-
 use proc_macro::TokenStream;
 use proc_macro2::Span;
 use quote::*;
 use syn::*;
-
 
 #[proc_macro_derive(ValueStruct)]
 pub fn value_struct_macro(input: TokenStream) -> TokenStream {
@@ -40,17 +15,12 @@ pub fn value_struct_macro(input: TokenStream) -> TokenStream {
                 let field_type = &field.ty;
                 let parsed_field_type = parse_field_type(field_type);
 
-                let type_dependent_functions =
-                    create_type_dependent_functions(&field_type, parsed_field_type.as_ref());
+                // let type_dependent_functions =
+                //     create_type_dependent_functions(&field_type, parsed_field_type.as_ref());
                 let type_dependent_impls =
                     create_dependent_impls(&struct_name, &field_type, parsed_field_type.as_ref());
 
                 let output = quote! {
-                    #[allow(dead_code)]
-                    impl #struct_name {
-                        #type_dependent_functions
-                    }
-
                     #type_dependent_impls
                 };
 
@@ -60,8 +30,8 @@ pub fn value_struct_macro(input: TokenStream) -> TokenStream {
                 span,
                 "ValueStruct works only on structs with one unnamed field",
             )
-            .to_compile_error()
-            .into(),
+                .to_compile_error()
+                .into(),
         },
         _ => Error::new(span, "ValueStruct works only on structs")
             .to_compile_error()
@@ -71,7 +41,7 @@ pub fn value_struct_macro(input: TokenStream) -> TokenStream {
 
 enum ParsedType {
     StringType,
-    ScalarType
+    ScalarType,
 }
 
 #[inline]
@@ -103,30 +73,34 @@ fn create_dependent_impls(
     field_type: &Type,
     parsed_field_type: Option<&ParsedType>,
 ) -> proc_macro2::TokenStream {
-    match parsed_field_type {
-        Some(ParsedType::ScalarType) => {
-            quote! {
-               impl std::convert::From<#field_type> for #struct_name {
-                    fn from(value: #field_type) -> Self {
-                        #struct_name(value)
-                    }
-               }
+
+    let all_types_base_impl = quote! {
+
+        impl ValueStruct for #struct_name {
+            type ValueType = #field_type;
+
+            #[inline]
+            fn value(&self) -> &Self::ValueType {
+                &self.0
             }
         }
+
+       impl std::convert::From<#field_type> for #struct_name {
+            fn from(value: #field_type) -> Self {
+                #struct_name(value)
+            }
+       }
+
+        impl std::convert::From<&#field_type> for #struct_name {
+            fn from(value: &#field_type) -> Self {
+                #struct_name(value.clone())
+            }
+        }
+    };
+
+    match parsed_field_type {
         Some(ParsedType::StringType) => {
             quote! {
-                impl std::convert::From<std::string::String> for #struct_name {
-                    fn from(value: String) -> Self {
-                        #struct_name(value)
-                    }
-                }
-
-                impl std::convert::From<&std::string::String> for #struct_name {
-                    fn from(value: &String) -> Self {
-                        #struct_name(value.clone())
-                    }
-                }
-
                 impl std::convert::From<&str> for #struct_name {
                     fn from(value: &str) -> Self {
                         #struct_name(String::from(value))
@@ -147,46 +121,13 @@ fn create_dependent_impls(
                     }
                 }
 
+                #all_types_base_impl
+
             }
         }
         _ => {
             quote! {
-               impl std::convert::From<#field_type> for #struct_name {
-                    fn from(value: #field_type) -> Self {
-                        #struct_name(value)
-                    }
-               }
-
-                impl std::convert::From<&#field_type> for #struct_name {
-                    fn from(value: &#field_type) -> Self {
-                        #struct_name(value.clone())
-                    }
-                }
-            }
-        }
-    }
-}
-
-#[inline]
-fn create_type_dependent_functions(
-    field_type: &Type,
-    parsed_field_type: Option<&ParsedType>,
-) -> proc_macro2::TokenStream {
-    match parsed_field_type {
-        Some(ParsedType::ScalarType) => {
-            quote! {
-                #[inline]
-                pub fn value(&self) -> #field_type {
-                    self.0
-                }
-            }
-        }
-        _ => {
-            quote! {
-                #[inline]
-                pub fn value(&self) -> &#field_type {
-                    &self.0
-                }
+                #all_types_base_impl
             }
         }
     }

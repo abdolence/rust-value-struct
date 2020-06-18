@@ -1,7 +1,7 @@
 #[cfg(test)]
 mod tests {
 
-    use rvs_derive::ValueStruct;
+    use rvs::ValueStruct;
 
     #[derive(Debug, ValueStruct, Clone)]
     struct SimpleStrValueStruct(String);
@@ -36,7 +36,7 @@ mod tests {
     #[test]
     fn create_int_value_struct() {
         let i1 : SimpleIntValueStruct = 1u8.into();
-        assert_eq!(i1.value(), 1u8);
+        assert_eq!(*i1.value(), 1u8);
     }
 
     #[test]
@@ -61,11 +61,11 @@ mod tests {
         fn test_func_str(id : &str) -> &str {
             id
         }
-
         let uid = "my-uid".into();
         let uid_fres : &UserId = test_func(&uid);
         let str_fres = test_func_str(uid.as_ref());
         assert_eq!(uid_fres.value(), "my-uid");
         assert_eq!(str_fres, "my-uid");
     }
+
 }

@@ -19,11 +19,10 @@ let uid : UserId = "my-uid".into();
 
 `ValueStruct` generates for you:
  - `std::convert::From<>` instances automatically to help you to create your structs.
- - an inline `value()` function to access your field directly without using .0.
+ - `ValueStruct::value()` function implementation to access your field directly without using .0.
 
 There are different behaviour for different field types:
 - For `std::string::String` it generates `From<String>`, `From<&String>`, `From<&str>`
-- For scalar types `value()` isn't a reference, for others it is.
  
 ## Usage
 
@@ -31,12 +30,12 @@ Add this to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-rvs_derive = "0.1"
+rvs = "0.2"
 ```
 
 ```rust
 // Import it
-use rvs_derive::ValueStruct;
+use rvs::ValueStruct;
 
 // And use it on your structs
 #[derive(ValueStruct)]

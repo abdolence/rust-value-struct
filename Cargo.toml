@@ -1,6 +1,7 @@
 [workspace]
 
 members = [
+    "rvs",
     "rvs_derive",
     "rvs_test"
 ]
