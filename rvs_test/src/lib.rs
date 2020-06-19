@@ -2,6 +2,7 @@
 mod tests {
 
     use rvstruct::ValueStruct;
+    use std::fmt::Formatter;
 
     #[derive(Debug, ValueStruct, Clone)]
     struct SimpleStrValueStruct(String);
@@ -68,4 +69,9 @@ mod tests {
         assert_eq!(str_fres, "my-uid");
     }
 
+    #[test]
+    fn test_displayable() {
+        let test : SimpleStrValueStruct = "test".into();
+        format!("{}",test);
+    }
 }

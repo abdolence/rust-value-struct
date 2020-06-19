@@ -97,8 +97,21 @@ fn create_dependent_impls(
     };
 
     match parsed_field_type {
+        Some(ParsedType::ScalarType) => {
+            quote! {
+                #all_types_base_impl
+
+                impl std::fmt::Display for #struct_name {
+                    fn fmt(&self, f: &mut Formatter) -> std::fmt::Result {
+                        self.value().fmt(f)
+                    }
+                }
+            }
+        }
         Some(ParsedType::StringType) => {
             quote! {
+                #all_types_base_impl
+
                 impl std::convert::From<&str> for #struct_name {
                     fn from(value: &str) -> Self {
                         #struct_name(String::from(value))
@@ -119,7 +132,11 @@ fn create_dependent_impls(
                     }
                 }
 
-                #all_types_base_impl
+                impl std::fmt::Display for #struct_name {
+                    fn fmt(&self, f: &mut Formatter) -> std::fmt::Result {
+                        self.value().fmt(f)
+                    }
+                }
 
             }
         }
