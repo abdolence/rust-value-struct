@@ -2,7 +2,6 @@
 mod tests {
 
     use rvstruct::ValueStruct;
-    use std::fmt::Formatter;
 
     #[derive(Debug, ValueStruct, Clone)]
     struct SimpleStrValueStruct(String);

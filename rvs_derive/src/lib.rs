@@ -102,7 +102,7 @@ fn create_dependent_impls(
                 #all_types_base_impl
 
                 impl std::fmt::Display for #struct_name {
-                    fn fmt(&self, f: &mut Formatter) -> std::fmt::Result {
+                    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
                         self.value().fmt(f)
                     }
                 }
@@ -133,7 +133,7 @@ fn create_dependent_impls(
                 }
 
                 impl std::fmt::Display for #struct_name {
-                    fn fmt(&self, f: &mut Formatter) -> std::fmt::Result {
+                    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
                         self.value().fmt(f)
                     }
                 }
