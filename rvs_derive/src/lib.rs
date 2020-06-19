@@ -15,8 +15,6 @@ pub fn value_struct_macro(input: TokenStream) -> TokenStream {
                 let field_type = &field.ty;
                 let parsed_field_type = parse_field_type(field_type);
 
-                // let type_dependent_functions =
-                //     create_type_dependent_functions(&field_type, parsed_field_type.as_ref());
                 let type_dependent_impls =
                     create_dependent_impls(&struct_name, &field_type, parsed_field_type.as_ref());
 
