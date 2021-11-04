@@ -30,7 +30,7 @@ Add this to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-rvstruct = "0.2"
+rvstruct = "0.3"
 ```
 
 ```rust

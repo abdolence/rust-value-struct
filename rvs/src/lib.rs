@@ -21,7 +21,6 @@
 //! - for `std::string::String` it generates additional instance for `From<&str>`
 //!
 
-use rvs_derive;
 pub use rvs_derive::*;
 
 pub trait ValueStruct {

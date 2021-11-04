@@ -1,8 +1,8 @@
 [package]
 name = "rvs_derive"
-version = "0.2.3"
+version = "0.3.0"
 authors = ["Abdulla Abdurakhmanov <me@abdolence.dev>"]
-edition = "2018"
+edition = "2021"
 license = "Apache-2.0"
 description = "A helper macros implementation for Value Classes in Rust"
 homepage = "https://github.com/abdolence/rust-value-struct"
