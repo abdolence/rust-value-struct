@@ -1,6 +1,6 @@
 [package]
 name = "rvstruct"
-version = "0.3.0"
+version = "0.3.1"
 authors = ["Abdulla Abdurakhmanov <me@abdolence.dev>"]
 edition = "2018"
 license = "Apache-2.0"
@@ -17,4 +17,4 @@ include = ["Cargo.toml", "src/**/*.rs", "../README.md", "../LICENSE"]
 name = "rvstruct"
 
 [dependencies]
-rvs_derive = { version = "0.3", path = "../rvs_derive"}
+rvs_derive = { version = "0.3.1", path = "../rvs_derive"}

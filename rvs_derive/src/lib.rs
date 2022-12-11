@@ -28,8 +28,8 @@ pub fn value_struct_macro(input: TokenStream) -> TokenStream {
                 span,
                 "ValueStruct works only on structs with one unnamed field",
             )
-                .to_compile_error()
-                .into(),
+            .to_compile_error()
+            .into(),
         },
         _ => Error::new(span, "ValueStruct works only on structs")
             .to_compile_error()
@@ -58,10 +58,10 @@ fn parse_field_type(field_type: &Type) -> Option<ParsedType> {
                 "String" | "std::string::String" => Some(ParsedType::StringType),
                 "i8" | "i16" | "i32" | "i64" | "i128" | "isize" | "u8" | "u16" | "u32" | "u64"
                 | "u128" | "usize" => Some(ParsedType::ScalarType),
-                _ => None
+                _ => None,
             }
         }
-        _ => None
+        _ => None,
     }
 }
 
@@ -71,8 +71,13 @@ fn create_dependent_impls(
     field_type: &Type,
     parsed_field_type: Option<&ParsedType>,
 ) -> proc_macro2::TokenStream {
-
     let all_types_base_impl = quote! {
+
+        impl #struct_name {
+            const fn new(value: #field_type) -> Self {
+                Self(value)
+            }
+        }
 
         impl ValueStruct for #struct_name {
             type ValueType = #field_type;
@@ -80,6 +85,11 @@ fn create_dependent_impls(
             #[inline]
             fn value(&self) -> &Self::ValueType {
                 &self.0
+            }
+
+            #[inline]
+            fn into_value(self) -> Self::ValueType {
+                self.0
             }
         }
 

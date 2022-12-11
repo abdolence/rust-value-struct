@@ -27,4 +27,6 @@ pub trait ValueStruct {
     type ValueType;
 
     fn value(&self) -> &Self::ValueType;
+
+    fn into_value(self) -> Self::ValueType;
 }
