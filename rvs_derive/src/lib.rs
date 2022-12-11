@@ -74,7 +74,7 @@ fn create_dependent_impls(
     let all_types_base_impl = quote! {
 
         impl #struct_name {
-            const fn new(value: #field_type) -> Self {
+            pub const fn new(value: #field_type) -> Self {
                 Self(value)
             }
         }
