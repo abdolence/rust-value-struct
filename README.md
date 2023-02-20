@@ -18,11 +18,13 @@ let uid : UserId = "my-uid".into();
 ## Macros overview
 
 `ValueStruct` generates for you:
- - `std::convert::From<>` instances automatically to help you to create your structs.
- - `ValueStruct::value()` function implementation to access your field directly without using .0.
+ - `std::convert::From<>` instances automatically to help you to create your structs;
+ - `ValueStruct::value()` function implementation to access your field directly without using .0;
+ - `ValueStruct::into_value()` function to convert it back to the raw type without cloning;
+ - `Display` implementations;
 
 There are different behaviour for different field types:
-- For `std::string::String` it generates `From<String>`, `From<&String>`, `From<&str>`
+- For `std::string::String` it generates additionally `From<String>`, `From<&String>`, `From<&str>`
  
 ## Usage
 
