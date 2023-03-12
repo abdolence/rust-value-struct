@@ -21,6 +21,7 @@ let uid : UserId = "my-uid".into();
  - `std::convert::From<>` instances automatically to help you to create your structs;
  - `ValueStruct::value()` function implementation to access your field directly without using .0;
  - `ValueStruct::into_value()` function to convert it back to the raw type without cloning;
+ - `ValueStruct::new()` const function to create a new instance of your struct without using `.into()`;
  - `Display` implementations;
 
 There are different behaviour for different field types:
@@ -42,6 +43,9 @@ use rvstruct::ValueStruct;
 // And use it on your structs
 #[derive(ValueStruct)]
 struct UserId(String);
+
+// Reading the raw value
+let user_id_str = user_id.value();
 
 ``` 
 
