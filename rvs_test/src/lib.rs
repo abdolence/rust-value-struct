@@ -19,8 +19,8 @@ mod tests {
     #[derive(ValueStruct)]
     struct UserId(String);
 
-    /// Generated code must not resolve `Result`, `Ok` or `String` against the
-    /// names in the user's module, where a crate-local `Result<T>` alias is common.
+    /// Generated code must not resolve `Result` or `Ok` against the names in
+    /// the user's module, where a crate-local `Result<T>` alias is common.
     mod result_alias {
         use rvstruct::ValueStruct;
 

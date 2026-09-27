@@ -69,10 +69,18 @@ fn parse_field_type(field_type: &Type) -> Option<ParsedType> {
     }
 }
 
-/// Every path in the generated code is absolute, so that names in the user's
-/// module (a local `Result<T>` alias, for example) cannot capture it.
-/// `ValueStruct` is the exception: it stays unqualified so that users of
-/// `rvs_derive` alone can supply their own trait of that name.
+/// Trait and prelude paths in the generated code are absolute, so that names
+/// in the user's module (a local `Result<T>` alias, for example) cannot
+/// capture them. `ValueStruct` is the exception: it stays unqualified so that
+/// users of `rvs_derive` alone can supply their own trait of that name.
+///
+/// What belongs to the user resolves in the user's module: the field type as
+/// written, and method calls (`clone`, `value`, `as_str`, `into`), which
+/// prefer an inherent method to a trait method. The `String` branch is chosen
+/// by spelling, so its field type need not be std's `String`, and an inherent
+/// `value()` may exist to change what `Display` and `AsRef` show. Naming
+/// `::std::string::String`, `Clone::clone` or `self.0` directly would break
+/// or silently change that code.
 fn create_dependent_impls(
     struct_name: &Ident,
     field_type: &Type,
@@ -110,7 +118,7 @@ fn create_dependent_impls(
         #[automatically_derived]
         impl ::std::convert::From<&#field_type> for #struct_name {
             fn from(value: &#field_type) -> Self {
-                Self(::std::clone::Clone::clone(value))
+                Self(value.clone())
             }
         }
     };
@@ -119,7 +127,7 @@ fn create_dependent_impls(
         #[automatically_derived]
         impl ::std::fmt::Display for #struct_name {
             fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
-                ::std::fmt::Display::fmt(&self.0, f)
+                ::std::fmt::Display::fmt(&self.value(), f)
             }
         }
     };
@@ -135,7 +143,7 @@ fn create_dependent_impls(
             #[automatically_derived]
             impl ::std::convert::From<&str> for #struct_name {
                 fn from(value: &str) -> Self {
-                    Self(::std::string::String::from(value))
+                    Self(<#field_type>::from(value))
                 }
             }
 
@@ -144,14 +152,14 @@ fn create_dependent_impls(
                 type Err = ::std::string::ParseError;
 
                 fn from_str(s: &str) -> ::std::result::Result<Self, Self::Err> {
-                    ::std::result::Result::Ok(Self(::std::string::String::from(s)))
+                    ::std::result::Result::Ok(Self(s.into()))
                 }
             }
 
             #[automatically_derived]
             impl ::std::convert::AsRef<str> for #struct_name {
                 fn as_ref(&self) -> &str {
-                    ::std::string::String::as_str(&self.0)
+                    self.value().as_str()
                 }
             }
 
