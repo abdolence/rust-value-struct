@@ -1,0 +1,38 @@
+name: tests & formatting
+on:
+  push:
+  pull_request:
+    types: [ opened ]
+  workflow_dispatch:
+  # No Cargo.lock is committed, so a weekly run catches breakage from new dependency releases.
+  schedule:
+    - cron: '0 6 * * 1'
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref_protected && github.run_id || github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+    steps:
+      - uses: actions/checkout@v7
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: stable
+          components: rustfmt, clippy
+      - name: 'Checking formatting and clippy'
+        run: |
+          cargo fmt -- --check
+          cargo clippy --workspace --all-targets -- -Dwarnings
+      - name: 'Checking documentation'
+        run: RUSTDOCFLAGS="-D warnings" cargo doc --no-deps --workspace
+      - name: 'Run all tests, including the README examples'
+        run: cargo test --workspace
+      - name: 'Checking the minimum supported Rust version'
+        uses: dtolnay/rust-toolchain@1.71
+      # The lockfile written by stable is a format that cargo 1.71 cannot read.
+      - name: 'Building on the minimum supported Rust version'
+        run: |
+          rm -f Cargo.lock
+          cargo +1.71 check -p rvs_derive -p rvstruct
