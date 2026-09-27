@@ -11,7 +11,7 @@ documentation = "https://docs.rs/rvs_derive"
 keywords = ["value", "class", "newtype"]
 categories = ["rust-patterns"]
 readme = "../README.md"
-include = ["Cargo.toml", "src/**/*.rs", "../README.md", "../LICENSE"]
+include = ["Cargo.toml", "src/**/*.rs", "../README.md", "LICENSE"]
 
 [lib]
 name = "rvs_derive"
