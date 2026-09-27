@@ -24,7 +24,7 @@ let uid: UserId = "my-uid".into();
  - `new()` const function to create a new instance of your struct without using `.into()`;
  - `ValueStruct::value()` function implementation to access your field directly without using .0;
  - `ValueStruct::into_value()` function to convert it back to the raw type without cloning;
- - `From<T>` and `From<&T>` instances to help you to create your structs, where `T` is the field type.
+ - `From<T>` and `From<&T>` instances to help you to create your structs, where `T` is the field type. `From<&T>` clones the value, so `T` needs `Clone` or its own `clone()` method.
 
 There are different behaviour for different field types:
  - for `String` it generates additionally `From<&str>`, `FromStr`, `AsRef<str>` and `Display`;

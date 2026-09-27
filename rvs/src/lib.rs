@@ -18,7 +18,8 @@
 //!  - `new()` const function to create your struct without `.into()`;
 //!  - [`ValueStruct::value()`] to access your field without using `.0`;
 //!  - [`ValueStruct::into_value()`] to convert it back to the field type without cloning;
-//!  - `From<T>` and `From<&T>`, where `T` is the field type.
+//!  - `From<T>` and `From<&T>`, where `T` is the field type. `From<&T>` clones the value,
+//!    so `T` needs `Clone` or its own `clone()` method.
 //!
 //! Depending on the field type, it also generates:
 //!  - for `String` or `std::string::String`: `From<&str>`, `FromStr`, `AsRef<str>` and `Display`;
@@ -27,6 +28,9 @@
 //!
 //! The field type is recognised by how it is written, so a type alias for `String`
 //! gets only the impls for any field type.
+//! In the same way, a field written as `String` gets the `String` impls even when
+//! `String` names another type in scope, which then needs `From<&str>`, `as_str()`
+//! and `Display`.
 
 pub use rvs_derive::*;
 
