@@ -1,20 +1,20 @@
 [package]
 name = "rvstruct"
-version = "0.3.2"
+version = "0.3.3"
 authors = ["Abdulla Abdurakhmanov <me@abdolence.dev>"]
-edition = "2018"
+edition = "2021"
+rust-version = "1.71"
 license = "Apache-2.0"
 description = "A helper macros implementation for Value Classes in Rust"
-homepage = "https://github.com/abdolence/rust-value-struct"
 repository = "https://github.com/abdolence/rust-value-struct"
-documentation = "https://github.com/abdolence/rust-value-struct"
+documentation = "https://docs.rs/rvstruct"
 keywords = ["value", "class", "newtype"]
 categories = ["rust-patterns"]
 readme = "../README.md"
-include = ["Cargo.toml", "src/**/*.rs", "../README.md", "../LICENSE"]
+include = ["Cargo.toml", "src/**/*.rs", "../README.md", "LICENSE"]
 
 [lib]
 name = "rvstruct"
 
 [dependencies]
-rvs_derive = { version = "0.3.1", path = "../rvs_derive"}
+rvs_derive = { version = "0.3.3", path = "../rvs_derive" }

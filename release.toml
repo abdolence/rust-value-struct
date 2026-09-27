@@ -1,0 +1,8 @@
+# cargo-release tags and publishes this workspace as one release: rvs_derive
+# and rvstruct share the crate version and ship together, so one tag names
+# the release rather than one tag per crate.
+tag-prefix = ""
+tag-name = "v{{version}}"
+consolidate-commits = true
+pre-release-commit-message = "chore: release {{version}}"
+tag-message = "chore: release {{version}}"
