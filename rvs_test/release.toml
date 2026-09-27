@@ -1,0 +1,3 @@
+# rvs_test is publish = false and exists only to exercise the macros in
+# integration tests; it has no crates.io identity to tag or publish.
+release = false
