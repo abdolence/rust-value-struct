@@ -86,8 +86,10 @@ fn create_dependent_impls(
     field_type: &Type,
     parsed_field_type: Option<ParsedType>,
 ) -> proc_macro2::TokenStream {
+    let new_doc = format!("Creates a `{struct_name}` from its value.");
     let all_types_base_impl = quote! {
         impl #struct_name {
+            #[doc = #new_doc]
             pub const fn new(value: #field_type) -> Self {
                 Self(value)
             }
